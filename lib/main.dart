@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './question.dart';
+import './answer.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,8 +27,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var questions = [
-      'What\'s your favourite colour?',
-      'What\'s your favourite animal?',
+      {
+        'questionText': 'What\'s your favourite colour?',
+        'answers': ['Red', 'Green', 'Yellow', 'Pink'],
+      },
+      {
+        'questionText': 'What\'s your favourite animal?',
+        'answers': ['Cat', 'Lion', 'Dog', 'Tiger'],
+      },
+      {
+        'questionText': 'What\'s your favourite Game?',
+        'answers': ['GTA', 'PUBG', 'CyberPunk', 'ApexLegend'],
+      },
     ];
 
     return MaterialApp(
@@ -38,20 +49,13 @@ class _MyAppState extends State<MyApp> {
           body: Column(
             children: [
               Question(
-                questions[_questionIndex],
+                questions[_questionIndex]['questionText'],
               ),
-              RaisedButton(
-                child: Text('Answer1'),
-                onPressed: _answerQuestion,
-              ),
-              RaisedButton(
-                child: Text('Answer2'),
-                onPressed: _answerQuestion,
-              ),
-              RaisedButton(
-                child: Text('Answer3'),
-                onPressed: _answerQuestion,
-              ),
+              // ... means spread operator
+              ...(questions[_questionIndex]['answers'] as List<String>)
+                  .map((answer) {
+                return Answer(_answerQuestion, answer);
+              }).toList()
             ],
           )),
     );
