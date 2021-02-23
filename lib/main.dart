@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,7 +9,6 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _MyAppState();
   }
 }
@@ -26,7 +25,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
+    final _questions = const [
       {
         'questionText': 'What\'s your favourite colour?',
         'answers': ['Red', 'Green', 'Yellow', 'Pink'],
@@ -46,20 +45,13 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('My first App'),
         ),
-        body: _questionIndex < questions.length
-            ? Column(
-                children: [
-                  Question(
-                    questions[_questionIndex]['questionText'],
-                  ),
-                  // ... means spread operator
-                  ...(questions[_questionIndex]['answers'] as List<String>)
-                      .map((answer) {
-                    return Answer(_answerQuestion, answer);
-                  }).toList()
-                ],
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
               )
-            : Center(child: Text('You did it!')),
+            : Result(),
       ),
     );
   }
